@@ -11,7 +11,7 @@ setuptools.setup(
     description="Lightweight graph implementation with JSON serialization",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
+    url="https://github.com/rnd0101/json-graph-lite",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 2.7",
