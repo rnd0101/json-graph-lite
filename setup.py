@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="json-graph-lite",
-    version="0.1a",
+    version="0.1a0",
     author="Roman Suzi",
     author_email="roman.suzi@gmail.com",
     description="Lightweight graph implementation with JSON serialization",
