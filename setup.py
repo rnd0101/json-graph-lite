@@ -21,4 +21,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries",
     ],
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest'],
 )

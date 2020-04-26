@@ -10,6 +10,7 @@ venv
 build
 dist
 prof
+.eggs
 .~lock*
 .DS_Store
 code-revision.txt
