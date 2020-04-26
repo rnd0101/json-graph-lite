@@ -16,3 +16,6 @@ However, nothing substantial has been borrowed from there.
 
 The intention of json-graph-lite is to provide lightweight graph library, which serializes
 and deserializes graphs a la JSON graph format.
+
+**NB: This library uses list for nodes, not object, so it's not really compatible with JSON Graph Format,
+but sports better support for non-string node ids.**
