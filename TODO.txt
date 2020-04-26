@@ -5,3 +5,4 @@ TODO
 - Support multigraphs
 - Validation
 - Original JSON graph format support
+- Conversions to other graph formats (JSON-LD, networkx)
