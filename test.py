@@ -35,6 +35,10 @@ def test_graph_round_trip_int_ids():
     g1 = Graph.from_dict(d1)
     assert g1.to_dict() == g.to_dict()
 
+    d_json2 = str(g)
+    g2 = Graph.from_json(d_json2)
+    assert g2.to_dict() == g.to_dict()
+
 
 def test_graph_with_metadata():
     node1 = Node(id="a", label="node A", metadata={"w": 1.3})
@@ -65,9 +69,8 @@ def test_graph_with_metadata():
             'type': 'graph type'
         }
     }
-    d_json = json.dumps(d)
-    d1 = json.loads(d_json)
-    g1 = Graph.from_dict(d1)
+    d_json = str(g)
+    g1 = Graph.from_json(d_json)
     assert g1.to_dict() == g.to_dict()
 
 

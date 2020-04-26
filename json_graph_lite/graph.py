@@ -4,11 +4,14 @@ from .common import obj_to_dict
 from .common import only_keys
 from .edge import Edge
 from .node import Node
+import json
 
 
 class Graph(object):
     NodeClass = Node
     EdgeClass = Edge
+    json_module = json
+
     GRAPH = "graph"
     NODES = "nodes"
     EDGES = "edges"
@@ -91,3 +94,11 @@ class Graph(object):
         if len(self._edges) > 0:
             graph[self.EDGES] = [edge.to_dict() for edge in self.edges]
         return {Graph.GRAPH: graph}
+
+    def __str__(self):
+        return self.json_module.dumps(self.to_dict())
+
+    @classmethod
+    def from_json(cls, json_str):
+        d = cls.json_module.loads(json_str)
+        return cls.from_dict(d)
