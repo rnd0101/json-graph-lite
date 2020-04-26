@@ -7,6 +7,8 @@ from .node import Node
 
 
 class Graph(object):
+    NodeClass = Node
+    EdgeClass = Edge
     GRAPH = "graph"
     NODES = "nodes"
     EDGES = "edges"
@@ -29,8 +31,8 @@ class Graph(object):
     def from_dict(cls, dict_value):
         d = dict_value["graph"]
         return cls(
-            nodes=[Node.from_dict(node) for node in d.get("nodes", [])],
-            edges=[Edge.from_dict(edge) for edge in d.get("edges", [])],
+            nodes=[cls.NodeClass.from_dict(node) for node in d.get("nodes", [])],
+            edges=[cls.EdgeClass.from_dict(edge) for edge in d.get("edges", [])],
             **only_keys(d, cls._SCALAR_SLOTS)
         )
 
@@ -40,7 +42,7 @@ class Graph(object):
 
     @nodes.setter
     def nodes(self, value):
-        self._nodes = [check_type(item, Node) for item in value if item is not None]
+        self._nodes = [check_type(item, self.NodeClass) for item in value if item is not None]
 
     def has_nodes(self, nodes):
         return set(nodes).issubset({n.id for n in self.nodes})
@@ -56,8 +58,9 @@ class Graph(object):
             for item in value if item is not None]
 
     def add_node(self, node):
-        check_type(node, Node)
-        check_condition(node, lambda x: not self.has_nodes({node.id}), "Node already exists")
+        check_type(node, self.NodeClass)
+        check_condition(node, lambda x: not self.has_nodes({node.id}),
+                        "{} already exists".format(self.NodeClass.__name__))
         self._nodes.append(node)
 
     def add_edge(self, edge, force_direction=False):
