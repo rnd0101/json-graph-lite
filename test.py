@@ -19,6 +19,23 @@ def test_graph_round_trip():
     assert g1.to_dict() == g.to_dict()
 
 
+def test_graph_round_trip_int_ids():
+    g = Graph(
+        nodes=[Node(id=1), Node(id=2)],
+        edges=[Edge(source=1, target=2)])
+    d = g.to_dict()
+    assert d == {
+        'graph': {
+            'directed': True,
+            'edges': [{'source': 1, 'target': 2}],
+            'nodes': [{'id': 1}, {'id': 2}]}}
+
+    d_json = json.dumps(d)
+    d1 = json.loads(d_json)
+    g1 = Graph.from_dict(d1)
+    assert g1.to_dict() == g.to_dict()
+
+
 def test_graph_with_metadata():
     node1 = Node(id="a", label="node A", metadata={"w": 1.3})
     node2 = Node(id="b", label="node B", metadata={"w": 0.3})
