@@ -4,3 +4,4 @@ TODO
 - Better documentation on usage
 - Support multigraphs
 - Validation
+- Original JSON graph format support
