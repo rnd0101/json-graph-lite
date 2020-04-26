@@ -87,6 +87,16 @@ class Graph(object):
         else:
             return [edge for edge in self.edges if edge.source == node_id or edge.target == node_id]
 
+    def get_nodes(self, criteria=None):
+        if callable(criteria):
+            return [node for node in self.nodes if criteria(node)]
+        raise ValueError("Criteria is not callable.")
+
+    def get_edges(self, criteria=None):
+        if callable(criteria):
+            return [edge for edge in self.edges if criteria(edge)]
+        raise ValueError("Criteria is not callable.")
+
     def to_dict(self):
         graph = obj_to_dict(self, self._SCALAR_SLOTS)
         if len(self._nodes) > 0:
