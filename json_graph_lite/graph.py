@@ -2,6 +2,7 @@ from .common import check_condition
 from .common import check_type
 from .common import obj_to_dict
 from .common import only_keys
+from .common import search_by_criteria
 from .edge import Edge
 from .node import Node
 import json
@@ -88,14 +89,10 @@ class Graph(object):
             return [edge for edge in self.edges if edge.source == node_id or edge.target == node_id]
 
     def get_nodes(self, criteria=None):
-        if callable(criteria):
-            return [node for node in self.nodes if criteria(node)]
-        raise ValueError("Criteria is not callable.")
+        return search_by_criteria(self.nodes, criteria)
 
     def get_edges(self, criteria=None):
-        if callable(criteria):
-            return [edge for edge in self.edges if criteria(edge)]
-        raise ValueError("Criteria is not callable.")
+        return search_by_criteria(self.edges, criteria)
 
     def to_dict(self):
         graph = obj_to_dict(self, self._SCALAR_SLOTS)
