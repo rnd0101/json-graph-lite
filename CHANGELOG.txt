@@ -1,0 +1,7 @@
+
+json_graph_lite 0.1a0, 2020-04-26
+---------------------------------
+
+- Initial release
+- Foundation classes: Graph, Node, Edge
+- JSON de-/serialization

@@ -1,0 +1,6 @@
+TODO
+----
+
+- Better documentation on usage
+- Support multigraphs
+- Validation
