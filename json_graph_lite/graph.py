@@ -34,10 +34,10 @@ class Graph(object):
 
     @classmethod
     def from_dict(cls, dict_value):
-        d = dict_value["graph"]
+        d = dict_value[cls.GRAPH]
         return cls(
-            nodes=[cls.NodeClass.from_dict(node) for node in d.get("nodes", [])],
-            edges=[cls.EdgeClass.from_dict(edge) for edge in d.get("edges", [])],
+            nodes=[cls.NodeClass.from_dict(node) for node in d.get(cls.NODES, [])],
+            edges=[cls.EdgeClass.from_dict(edge) for edge in d.get(cls.EDGES, [])],
             **only_keys(d, cls._SCALAR_SLOTS)
         )
 
