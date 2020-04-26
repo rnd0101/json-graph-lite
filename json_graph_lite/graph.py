@@ -1,3 +1,5 @@
+import json
+
 from .common import check_condition
 from .common import check_type
 from .common import obj_to_dict
@@ -5,7 +7,6 @@ from .common import only_keys
 from .common import search_by_criteria
 from .edge import Edge
 from .node import Node
-import json
 
 
 class Graph(object):
@@ -51,15 +52,17 @@ class Graph(object):
     def has_nodes(self, nodes):
         return set(nodes).issubset({n.id for n in self.nodes})
 
+    def checked_edges(self, edges):
+        return [check_condition(check_type(item, Edge), lambda x: self.has_nodes(x.nodes_ids), "No such nodes")
+                for item in edges if item is not None]
+
     @property
     def edges(self):
         return self._edges
 
     @edges.setter
     def edges(self, value):
-        self._edges = [
-            check_condition(check_type(item, Edge), lambda x: self.has_nodes(x.nodes_ids), "No such nodes")
-            for item in value if item is not None]
+        self._edges = self.checked_edges(value)
 
     def add_node(self, node):
         check_type(node, self.NodeClass)
@@ -68,13 +71,12 @@ class Graph(object):
         self._nodes.append(node)
 
     def add_edge(self, edge, force_direction=False):
-        check_type(edge, Edge)
         if self.directed:
             if edge.directed is None or (not edge.directed and force_direction):
                 edge.directed = True
             if not edge.directed:
                 raise ValueError("Adding undirected edge to directed graph")
-        self._edges.append(edge)
+        self._edges.extend(self.checked_edges([edge]))
 
     def out_edges(self, node_id):
         if self.directed:

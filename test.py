@@ -1,9 +1,11 @@
+import json
 from copy import deepcopy
+
+import pytest
 
 from json_graph_lite.edge import Edge
 from json_graph_lite.graph import Graph
 from json_graph_lite.node import Node
-import json
 
 GRAPH_FIXTURE = {
     'graph': {
@@ -93,6 +95,18 @@ def test_add_node_and_edge():
         }
     }
 
+    with pytest.raises(TypeError) as excinfo:
+        g.add_node(Edge("a", "b"))
+    assert 'Type Node expected' in repr(excinfo.value)
+
+    with pytest.raises(ValueError) as excinfo:
+        g.add_edge(Edge("a", "b", directed=False))
+    assert 'Adding undirected edge to directed graph' in repr(excinfo.value)
+
+    with pytest.raises(ValueError) as excinfo:
+        g.add_edge(Edge("a", "nosuch"))
+    assert 'No such nodes' in repr(excinfo.value)
+
 
 def test_in_out_edges():
     g = Graph.from_dict(deepcopy(GRAPH_FIXTURE))
@@ -120,6 +134,10 @@ def test_find_nodes():
     found = g.get_nodes(lambda e: e.metadata and e.metadata.get("w", 0.0) > 0)
     assert len(found) == 2
 
+    with pytest.raises(ValueError) as excinfo:
+        g.get_nodes("1")
+    assert 'Criteria is not callable.' in repr(excinfo.value)
+
 
 def test_find_edges():
     g = Graph.from_dict(deepcopy(GRAPH_FIXTURE))
@@ -136,6 +154,4 @@ def test_find_edges():
 
 
 if __name__ == "__main__":
-    import pytest
-
     pytest.main([__file__])
