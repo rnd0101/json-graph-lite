@@ -88,10 +88,10 @@ class Graph(object):
         else:
             return [edge for edge in self.edges if edge.source == node_id or edge.target == node_id]
 
-    def get_nodes(self, criteria=None):
+    def get_nodes(self, criteria):
         return search_by_criteria(self.nodes, criteria)
 
-    def get_edges(self, criteria=None):
+    def get_edges(self, criteria):
         return search_by_criteria(self.edges, criteria)
 
     def to_dict(self):
