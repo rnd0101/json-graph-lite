@@ -1,11 +1,11 @@
 import json
 
-from json_graph_lite import Graph
-from json_graph_lite.common import check_condition
-from json_graph_lite.common import check_type
-from json_graph_lite.common import obj_to_dict
-from json_graph_lite.common import only_keys
-from json_graph_lite.common import search_by_criteria
+from .graph import Graph
+from .common import check_condition
+from .common import check_type
+from .common import obj_to_dict
+from .common import only_keys
+from .common import search_by_criteria
 
 
 class GraphList(object):
