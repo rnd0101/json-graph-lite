@@ -5,23 +5,55 @@ import pytest
 
 from json_graph_lite.edge import Edge
 from json_graph_lite.graph import Graph
+from json_graph_lite.graphs import GraphList
 from json_graph_lite.node import Node
 
-GRAPH_FIXTURE = {
-    'graph': {
+GRAPH1 = {
+    'directed': True,
+    'edges': [{
         'directed': True,
-        'edges': [{
-            'directed': True,
-            'metadata': {'w': 3},
-            'relation': 'edge AB',
-            'source': 'a',
-            'target': 'b'}],
-        'label': 'G',
-        'metadata': {'tags': ['g']},
-        'nodes': [{'id': 'a', 'label': 'node A', 'metadata': {'w': 1.3}},
-                  {'id': 'b', 'label': 'node B', 'metadata': {'w': 0.3}}],
-        'type': 'graph type'
-    }
+        'metadata': {'w': 3},
+        'relation': 'edge AB',
+        'source': 'a',
+        'target': 'b'}],
+    'label': 'G',
+    'metadata': {'tags': ['g']},
+    'nodes': [{'id': 'a', 'label': 'node A', 'metadata': {'w': 1.3}},
+              {'id': 'b', 'label': 'node B', 'metadata': {'w': 0.3}}],
+    'type': 'graph type'
+}
+
+GRAPH2 = {
+    'directed': True,
+    'edges': [{
+        'directed': True,
+        'metadata': {'w': 1},
+        'relation': 'edge AB',
+        'source': 'a',
+        'target': 'b'}],
+    'label': 'G2',
+    'metadata': {'tags': ['g2']},
+    'nodes': [{'id': 'a', 'label': 'node A', 'metadata': {'w': 0.3}},
+              {'id': 'b', 'label': 'node B', 'metadata': {'w': 5.3}}],
+    'type': 'graph type'
+}
+
+GRAPH_FIXTURE = {
+    'graph': GRAPH1
+}
+
+GRAPH2_FIXTURE = {
+    'graph': GRAPH1
+}
+
+GRAPHS_FIXTURE = {
+    'metadata': {
+        'comment': 'JGF does not allow metadata here'
+    },
+    'graphs': [
+        GRAPH1,
+        GRAPH2
+    ]
 }
 
 
@@ -151,6 +183,86 @@ def test_find_edges():
     found = g.get_edges(lambda e: e.source == 'a')
     assert len(found) == 2
     assert found[0].target != found[1].target
+
+
+def test_graphs_round_trip():
+    graph_list = GraphList.from_dict(GRAPHS_FIXTURE)
+    assert graph_list.to_dict() == GRAPHS_FIXTURE
+
+
+def test_graphs_json_round_trip():
+    graph_list = GraphList.from_dict(GRAPHS_FIXTURE)
+    gl_json = str(graph_list)
+    graph_list1 = GraphList.from_json(gl_json)
+    assert graph_list1.to_dict() == graph_list.to_dict()
+
+
+def test_add_graphs():
+    graph_list = GraphList()
+    g1 = Graph.from_dict(GRAPH_FIXTURE)
+    graph_list.append(g1)
+
+    assert graph_list.to_dict() == {
+        'graphs': [
+            {
+                'directed': True,
+                'edges': [{'directed': True,
+                           'metadata': {'w': 3},
+                           'relation': 'edge AB',
+                           'source': 'a',
+                           'target': 'b'}],
+                'label': 'G',
+                'metadata': {'tags': ['g']},
+                'nodes': [{'id': 'a',
+                           'label': 'node A',
+                           'metadata': {'w': 1.3}},
+                          {'id': 'b',
+                           'label': 'node B',
+                           'metadata': {'w': 0.3}}],
+                'type': 'graph type'
+            }
+        ]
+    }
+
+    graph_list.append(g1)
+
+    g2 = Graph.from_dict(GRAPH_FIXTURE)
+    g2.id = "2"
+    graph_list.append(g2)
+
+    assert graph_list.graphs == [g1, g1, g2]
+
+    with pytest.raises(ValueError) as excinfo:
+        graph_list.append(g2)
+    assert 'Graph already exists' in repr(excinfo.value)
+
+
+def test_graphs_setter():
+    graph_list = GraphList()
+    assert len(graph_list) == 0
+
+    g1 = Graph.from_dict(GRAPH_FIXTURE)
+    graph_list.graphs = [g1]
+    assert len(graph_list) == 1
+
+
+def test_get_graph():
+    graph_list = GraphList()
+    assert len(graph_list) == 0
+
+    g1 = Graph.from_dict(GRAPH_FIXTURE)
+    g1.id = "1"
+
+    g2 = Graph.from_dict(GRAPH2_FIXTURE)
+    g2.id = "2"
+
+    graph_list.append(g1)
+    assert len(graph_list) == 1
+    graph_list.append(g2)
+    assert len(graph_list) == 2
+
+    assert graph_list.get_graphs(lambda g: g.id == 'nosuch') == []
+    assert graph_list.get_graphs(lambda g: g.id == '1') == [g1]
 
 
 if __name__ == "__main__":

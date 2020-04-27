@@ -17,17 +17,19 @@ class Graph(object):
     GRAPH = "graph"
     NODES = "nodes"
     EDGES = "edges"
+    ID = "id"
     TYPE = "type"
     LABEL = "label"
     DIRECTED = "directed"
     METADATA = "metadata"
-    _SCALAR_SLOTS = (DIRECTED, TYPE, LABEL, METADATA)
+    _SCALAR_SLOTS = (DIRECTED, ID, TYPE, LABEL, METADATA)
     __slots__ = _SCALAR_SLOTS + ("_nodes", "_edges")
 
-    def __init__(self, nodes=None, edges=None, type=None, label=None, directed=True, metadata=None):
+    def __init__(self, nodes=None, edges=None, id=None, type=None, label=None, directed=True, metadata=None):
         self.directed = directed
         self.nodes = nodes or []
         self.edges = edges or []
+        self.id = id
         self.type = type
         self.label = label
         self.metadata = metadata
@@ -66,7 +68,7 @@ class Graph(object):
 
     def add_node(self, node):
         check_type(node, self.NodeClass)
-        check_condition(node, lambda x: not self.has_nodes({node.id}),
+        check_condition(node, lambda x: not self.has_nodes({x.id}),
                         "{} already exists".format(self.NodeClass.__name__))
         self._nodes.append(node)
 
@@ -102,7 +104,7 @@ class Graph(object):
             graph[self.NODES] = [node.to_dict() for node in self.nodes]
         if len(self._edges) > 0:
             graph[self.EDGES] = [edge.to_dict() for edge in self.edges]
-        return {Graph.GRAPH: graph}
+        return {self.GRAPH: graph}
 
     def __str__(self):
         return self.json_module.dumps(self.to_dict())

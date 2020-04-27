@@ -1,4 +1,12 @@
 
+json_graph_lite 0.1a1, 2020-04-27
+---------------------------------
+
+- Added GraphList
+- Class Graph equipped with id
+- Stated, that this library IS NOT currently JGF-compatible
+
+
 json_graph_lite 0.1a0, 2020-04-26
 ---------------------------------
 
