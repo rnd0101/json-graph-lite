@@ -246,6 +246,10 @@ def test_graphs_setter():
     assert len(graph_list) == 1
 
 
+def test_empty_graphs():
+    assert GraphList().to_dict() == {'graphs': []}
+
+
 def test_get_graph():
     graph_list = GraphList()
     assert len(graph_list) == 0

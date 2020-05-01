@@ -55,8 +55,7 @@ class GraphList(object):
 
     def to_dict(self):
         graphs = obj_to_dict(self, self._SCALAR_SLOTS)
-        if len(self._graphs) > 0:
-            graphs[self.GRAPHS] = [graph.to_dict()[graph.GRAPH] for graph in self.graphs]
+        graphs[self.GRAPHS] = [graph.to_dict()[graph.GRAPH] for graph in self.graphs]
         return graphs
 
     def __len__(self):
