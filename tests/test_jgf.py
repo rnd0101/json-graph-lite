@@ -1,6 +1,8 @@
 import json
 from copy import deepcopy
 
+import pytest
+
 from json_graph_lite.jgf import Graph
 from json_graph_lite.jgf import Graphs
 
@@ -64,6 +66,21 @@ def test_graphs_round_trip():
     assert g1.to_dict() == GRAPHS_FIXTURE
 
 
+EMPTY_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
+  "graph": {}
+}"""
+
+
+NODES_ONLY_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
+  "graph": {
+    "nodes": {
+      "A": {},
+      "B": {}
+    }
+  }
+}"""
+
+
 SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
   "graph": {
     "nodes": {
@@ -78,11 +95,6 @@ SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
     ]
   }
 }"""
-
-
-def test_simple_graph_from_jgf_spec_example():
-    g1 = Graph.from_json(SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE)
-    assert json.loads(str(g1)) == json.loads(SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE)
 
 
 GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
@@ -125,9 +137,20 @@ GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
 }"""
 
 
-def test_graph_from_jgf_spec_example():
-    g1 = Graph.from_json(GRAPH_EXAMPLE_FROM_JGF_PAGE)
-    assert json.loads(str(g1)) == json.loads(GRAPH_EXAMPLE_FROM_JGF_PAGE)
+@pytest.mark.parametrize("json_graph", [
+    EMPTY_GRAPH_EXAMPLE_FROM_JGF_PAGE,
+    NODES_ONLY_GRAPH_EXAMPLE_FROM_JGF_PAGE,
+    SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE,
+    GRAPH_EXAMPLE_FROM_JGF_PAGE,
+])
+def test_graph_from_jgf_spec_example(json_graph):
+    g1 = Graph.from_json(NODES_ONLY_GRAPH_EXAMPLE_FROM_JGF_PAGE)
+    assert json.loads(str(g1)) == json.loads(NODES_ONLY_GRAPH_EXAMPLE_FROM_JGF_PAGE)
+
+
+EMPTY_GRAPHS_EXAMPLE_FROM_JGF_PAGE = """{
+  "graphs": []
+}"""
 
 
 GRAPHS_EXAMPLE_FROM_JGF_PAGE = """{
@@ -207,7 +230,10 @@ GRAPHS_EXAMPLE_FROM_JGF_PAGE = """{
   ]
 }"""
 
-
-def test_graphs_from_jgf_spec_example():
-    g1 = Graphs.from_json(GRAPHS_EXAMPLE_FROM_JGF_PAGE)
-    assert json.loads(str(g1)) == json.loads(GRAPHS_EXAMPLE_FROM_JGF_PAGE)
+@pytest.mark.parametrize("json_graphs", [
+    EMPTY_GRAPHS_EXAMPLE_FROM_JGF_PAGE,
+    GRAPHS_EXAMPLE_FROM_JGF_PAGE,
+])
+def test_graphs_from_jgf_spec_example(json_graphs):
+    g1 = Graphs.from_json(json_graphs)
+    assert json.loads(str(g1)) == json.loads(json_graphs)
