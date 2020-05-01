@@ -28,6 +28,11 @@ def inplace_update(d, **other):
     return d
 
 
+def inplace_del(d, key):
+    del d[key]
+    return d
+
+
 def search_by_criteria(objects, criteria):
     if callable(criteria):
         return [node for node in objects if criteria(node)]

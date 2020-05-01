@@ -1,3 +1,4 @@
+from .common import inplace_del
 from .common import inplace_update
 from .common import obj_to_dict
 from .common import only_keys
@@ -24,7 +25,7 @@ class Graph(BaseGraph):
     def to_dict(self):
         graph = obj_to_dict(self, self._SCALAR_SLOTS)
         if len(self._nodes) > 0:
-            graph[self.NODES] = {node.id: node.to_dict() for node in self.nodes}
+            graph[self.NODES] = {node.id: inplace_del(node.to_dict(), "id") for node in self.nodes}
         if len(self._edges) > 0:
             graph[self.EDGES] = [edge.to_dict() for edge in self.edges]
         return {self.GRAPH: graph}
