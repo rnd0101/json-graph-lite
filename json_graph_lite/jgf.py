@@ -16,10 +16,12 @@ class Graph(BaseGraph):
     @classmethod
     def from_dict(cls, dict_value):
         d = dict_value[cls.GRAPH]
+        kwargs = only_keys(d, cls._SCALAR_SLOTS)
+        kwargs[BaseGraph.DIRECTED] = d.get(BaseGraph.DIRECTED)
         return cls(
             nodes=[cls.NodeClass.from_dict(inplace_update(node, id=id)) for id, node in d.get(cls.NODES, {}).items()],
             edges=[cls.EdgeClass.from_dict(edge) for edge in d.get(cls.EDGES, [])],
-            **only_keys(d, cls._SCALAR_SLOTS)
+            **kwargs
         )
 
     def to_dict(self):

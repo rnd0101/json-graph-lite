@@ -80,10 +80,9 @@ SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
 }"""
 
 
-# FAILs as directed is forced
-# def test_simple_graph_from_jgf_spec_example():
-#     g1 = Graph.from_json(SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE)
-#     assert json.loads(str(g1)) == json.loads(SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE)
+def test_simple_graph_from_jgf_spec_example():
+    g1 = Graph.from_json(SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE)
+    assert json.loads(str(g1)) == json.loads(SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE)
 
 
 GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
