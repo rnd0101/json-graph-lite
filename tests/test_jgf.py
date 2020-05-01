@@ -66,10 +66,11 @@ def test_graphs_round_trip():
     assert g1.to_dict() == GRAPHS_FIXTURE
 
 
+# Examples below were borrowed from https://github.com/jsongraph/json-graph-specification page
+
 EMPTY_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
   "graph": {}
 }"""
-
 
 NODES_ONLY_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
   "graph": {
@@ -79,7 +80,6 @@ NODES_ONLY_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
     }
   }
 }"""
-
 
 SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
   "graph": {
@@ -95,7 +95,6 @@ SIMPLE_GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
     ]
   }
 }"""
-
 
 GRAPH_EXAMPLE_FROM_JGF_PAGE = """{
   "graph": {
@@ -151,7 +150,6 @@ def test_graph_from_jgf_spec_example(json_graph):
 EMPTY_GRAPHS_EXAMPLE_FROM_JGF_PAGE = """{
   "graphs": []
 }"""
-
 
 GRAPHS_EXAMPLE_FROM_JGF_PAGE = """{
   "graphs": [
@@ -229,6 +227,7 @@ GRAPHS_EXAMPLE_FROM_JGF_PAGE = """{
     }
   ]
 }"""
+
 
 @pytest.mark.parametrize("json_graphs", [
     EMPTY_GRAPHS_EXAMPLE_FROM_JGF_PAGE,
