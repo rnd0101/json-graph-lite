@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="json-graph-lite",
-    version="0.3a0",
+    version="0.4a0",
     author="Roman Suzi",
     author_email="roman.suzi@gmail.com",
     description="Lightweight graph implementation with JSON serialization",
@@ -21,6 +21,6 @@ setuptools.setup(
         "Operating System :: OS Independent",
         "Topic :: Software Development :: Libraries",
     ],
-    setup_requires=['pytest-runner'],
+    # setup_requires=['pytest-runner'],  # Breaks package-building
     tests_require=['pytest'],
 )

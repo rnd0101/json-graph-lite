@@ -23,6 +23,11 @@ def only_keys(d, keys):
     return {k: v for (k, v) in d.iteritems() if k in keys}
 
 
+def inplace_update(d, **other):
+    d.update(other)
+    return d
+
+
 def search_by_criteria(objects, criteria):
     if callable(criteria):
         return [node for node in objects if criteria(node)]

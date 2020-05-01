@@ -13,4 +13,4 @@ represent integer keys.
 The intention of json-graph-lite is to provide lightweight graph library, which serializes
 and deserializes graphs a la JSON graph format.
 
-Take a look at [test_all.py](test_all.py) for usage examples.
+Take a look at [tests/test_graphs.py](tests/test_graphs.py) for usage examples.
