@@ -267,6 +267,8 @@ def test_get_graph():
 
     assert graph_list.get_graphs(lambda g: g.id == 'nosuch') == []
     assert graph_list.get_graphs(lambda g: g.id == '1') == [g1]
+    assert graph_list.get_graph('nosuch') is None
+    assert graph_list.get_graph('1') == g1
 
 
 if __name__ == "__main__":

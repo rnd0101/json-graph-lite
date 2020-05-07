@@ -44,6 +44,12 @@ class GraphList(object):
             return False
         return any(graph_id == g.id for g in iter(self.graphs))
 
+    def get_graph(self, graph_id):
+        if graph_id is not None:
+            for g in self.graphs:
+                if graph_id == g.id:
+                    return g
+
     def append(self, graph):
         check_type(graph, self.GraphClass)
         check_condition(graph, lambda x: not self.has_graph(x.id),
