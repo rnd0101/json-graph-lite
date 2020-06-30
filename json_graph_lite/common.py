@@ -20,7 +20,7 @@ def check_condition(value, condition, error_message):
 
 
 def only_keys(d, keys):
-    return {k: v for (k, v) in d.iteritems() if k in keys}
+    return {k: v for (k, v) in d.items() if k in keys}
 
 
 def inplace_update(d, **other):
