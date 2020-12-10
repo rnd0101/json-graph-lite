@@ -5,17 +5,19 @@ from .node import Node
 
 class Edge(object):
     NodeClass = Node
+    ID = "id"
     SOURCE = "source"
     TARGET = "target"
     RELATION = "relation"
     LABEL = "label"
     DIRECTED = "directed"
     METADATA = "metadata"
-    __slots__ = (SOURCE, TARGET, RELATION, LABEL, DIRECTED, METADATA)
+    __slots__ = (ID, SOURCE, TARGET, RELATION, LABEL, DIRECTED, METADATA)
 
-    def __init__(self, source, target, relation=None, label=None, directed=None, metadata=None):
+    def __init__(self, source, target, id=None, relation=None, label=None, directed=None, metadata=None):
         self.source = source.id if isinstance(source, self.NodeClass) else source
         self.target = target.id if isinstance(target, self.NodeClass) else target
+        self.id = id
         self.relation = relation
         self.label = label
         self.directed = directed

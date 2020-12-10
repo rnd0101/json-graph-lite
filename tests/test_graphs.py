@@ -23,6 +23,9 @@ GRAPH1 = {
     'type': 'graph type'
 }
 
+GRAPH1B = deepcopy(GRAPH1)
+GRAPH1B['edges'][0]['id'] = "ab"
+
 GRAPH2 = {
     'directed': True,
     'edges': [{
@@ -40,6 +43,10 @@ GRAPH2 = {
 
 GRAPH_FIXTURE = {
     'graph': GRAPH1
+}
+
+GRAPH1B_FIXTURE = {
+    'graph': GRAPH1B
 }
 
 GRAPH2_FIXTURE = {
@@ -96,7 +103,7 @@ def test_graph_round_trip_int_ids():
 def test_graph_with_metadata():
     node1 = Node(id="a", label="node A", metadata={"w": 1.3})
     node2 = Node(id="b", label="node B", metadata={"w": 0.3})
-    edge = Edge(node1, node2, relation="edge AB", directed=True, metadata={"w": 3})
+    edge = Edge(node1, node2, id="ab", relation="edge AB", directed=True, metadata={"w": 3})
     g = Graph(
         nodes=[node1, node2],
         edges=[edge],
@@ -106,7 +113,7 @@ def test_graph_with_metadata():
         metadata={"tags": ["g"]}
     )
     d = g.to_dict()
-    assert d == GRAPH_FIXTURE
+    assert d == GRAPH1B_FIXTURE
     d_json = str(g)
     g1 = Graph.from_json(d_json)
     assert g1.to_dict() == g.to_dict()
