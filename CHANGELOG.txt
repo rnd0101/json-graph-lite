@@ -1,8 +1,9 @@
 
-json_graph_lite 0.7a0, 2020-12-10
+json_graph_lite 0.8a0, 2020-12-10
 ---------------------------------
 
 - Added id attribute for Edge
+- Renamed JGF graph to JGFGraph
 
 json_graph_lite 0.6a0, 2020-05-07
 ---------------------------------
