@@ -82,12 +82,12 @@ def test_graph_round_trip():
 def test_graph_round_trip_int_ids():
     g = Graph(
         nodes=[Node(id=1), Node(id=2)],
-        edges=[Edge(source=1, target=2)])
+        edges=[Edge(source=1, target=2, id=1)])
     d = g.to_dict()
     assert d == {
         'graph': {
             'directed': True,
-            'edges': [{'source': 1, 'target': 2}],
+            'edges': [{'source': 1, 'target': 2, 'id': 1}],
             'nodes': [{'id': 1}, {'id': 2}]}}
 
     d_json = json.dumps(d)
